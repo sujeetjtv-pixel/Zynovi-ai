@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zynovi AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .settings-btn {
+      background: white;
+      color: #111827;
+      border: none;
+      padding: 9px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 35px 10px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .chat-box {
+      background: white;
+      border-radius: 18px;
+      padding: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      margin-bottom: 25px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+    }
+
+    .ask {
+      background: #111827;
+      color: white;
+    }
+
+    .tool {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .feature {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      text-align: center;
+    }
+
+    .feature h3 {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    .feature p {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    #response {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #f3f4f6;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .settings {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 20;
+    }
+
+    .settings-panel {
+      background: white;
+      width: 90%;
+      max-width: 450px;
+      margin: 50px auto;
+      border-radius: 18px;
+      padding: 20px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .close {
+      background: #111827;
+      color: white;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🤖 Zynovi AI</div>
+  <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>Welcome to Zynovi AI</h1>
+    <p>Your all-in-one AI assistant for chat, voice, images, files, coding, study and more.</p>
+  </section>
+
+  <section class="chat-box">
+
+    <textarea id="question"
+      placeholder="Ask Zynovi AI anything..."></textarea>
+
+    <div class="actions">
+      <button class="ask" onclick="askAI()">🤖 Ask AI</button>
+      <button class="tool">🎤 Voice</button>
+      <button class="tool">📷 Image</button>
+      <button class="tool">📁 File</button>
+    </div>
+
+    <div id="response"></div>
+
+  </section>
+
+  <h2 style="margin-bottom:15px;">AI Features</h2>
+
+  <section class="features">
+
+    <div class="feature">
+      <div>🤖</div>
+      <h3>AI Chat</h3>
+      <p>Ask questions and get answers.</p>
+    </div>
+
+    <div class="feature">
+      <div>🎤</div>
+      <h3>Voice</h3>
+      <p>Talk with Zynovi AI.</p>
+    </div>
+
+    <div class="feature">
+      <div>🖼️</div>
+      <h3>Images</h3>
+      <p>Understand and create images.</p>
+    </div>
+
+    <div class="feature">
+      <div>📁</div>
+      <h3>Files</h3>
+      <p>Analyze PDFs and documents.</p>
+    </div>
+
+    <div class="feature">
+      <div>✍️</div>
+      <h3>Writing</h3>
+      <p>Write emails, scripts and posts.</p>
+    </div>
+
+    <div class="feature">
+      <div>💻</div>
+      <h3>Coding</h3>
+      <p>Build and debug code.</p>
+    </div>
+
+    <div class="feature">
+      <div>📚</div>
+      <h3>Study</h3>
+      <p>Learn and solve questions.</p>
+    </div>
+
+    <div class="feature">
+      <div>🔎</div>
+      <h3>Web Search</h3>
+      <p>Find current information.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Zynovi AI
+</footer>
+
+<!-- SETTINGS -->
+
+<div class="settings" id="settings">
+
+  <div class="settings-panel">
+
+    <h2>⚙️ Zynovi AI Settings</h2>
+
+    <div class="setting-item">
+      <span>🤖 AI Chat</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>🎤 Voice</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>🖼️ Images</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>📁 File Upload</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>🔎 Web Search</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>📚 Study Mode</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>💻 Coding Mode</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>🔔 Notifications</span>
+      <input type="checkbox">
+    </div>
+
+    <div class="setting-item">
+      <span>🌙 Dark Mode</span>
+      <input type="checkbox">
+    </div>
+
+    <div class="setting-item">
+      <span>📢 Ads</span>
+      <input type="checkbox" checked>
+    </div>
+
+    <div class="setting-item">
+      <span>💳 Premium</span>
+      <button class="tool">View Plan</button>
+    </div>
+
+    <div class="setting-item">
+      <span>💰 Prepaid Credits</span>
+      <button class="tool">Credits</button>
+    </div>
+
+    <button class="close" onclick="closeSettings()">Close Settings</button>
+
+  </div>
+
+</div>
+
+<script>
+
+function askAI() {
+  const question = document.getElementById("question").value.trim();
+  const response = document.getElementById("response");
+
+  if (!question) {
+    response.style.display = "block";
+    response.innerText = "Please enter your question first.";
+    return;
+  }
+
+  response.style.display = "block";
+  response.innerText =
+    "Zynovi AI is ready. Real AI connection will be added in the next step.";
+}
+
+function openSettings() {
+  document.getElementById("settings").style.display = "block";
+}
+
+function closeSettings() {
+  document.getElementById("settings").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
