@@ -349,8 +349,7 @@
 </div>
 
 <script>
-
-function askAI() {
+async function askAI() {
   const question = document.getElementById("question").value.trim();
   const response = document.getElementById("response");
 
@@ -361,19 +360,32 @@ function askAI() {
   }
 
   response.style.display = "block";
-  response.innerText =
-    "Zynovi AI is ready. Real AI connection will be added in the next step.";
+  response.innerText = "Zynovi AI सोच रहा है...";
+
+  try {
+    const result = await fetch(
+      "https://zynovi-ai-api.sujeetjtv.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: question
+        })
+      }
+    );
+
+    const data = await result.json();
+
+    if (!data.ok) {
+      throw new Error(data.error || "AI response failed");
+    }
+
+    response.innerText = data.answer;
+
+  } catch (error) {
+    response.innerText =
+      "Zynovi AI से connection नहीं हो पाया: " + error.message;
+  }
 }
-
-function openSettings() {
-  document.getElementById("settings").style.display = "block";
-}
-
-function closeSettings() {
-  document.getElementById("settings").style.display = "none";
-}
-
-</script>
-
-</body>
-</html>
